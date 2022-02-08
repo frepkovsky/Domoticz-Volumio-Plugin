@@ -16,11 +16,7 @@ Currently, the following functions are implemented:
 
 Plugin is still **work in progress!** 
 
-It has been tested and is working fine with **Domoticz 2021.1** and **Volumio 2** and **Volumio 3** 
-
-**Do not use the plugin with Domoticz 2022.1 yet!**
-
-See _Known issues_ below.
+I'm currently testing it with Domoticz 2021.1 and Volumio 2 and Volumio 3. Communication is working fine, events are sent/received both ways as expected, but currently I see some issues logged by Domoticz when plugin is enabled together with other plugins, so I do not reccommend to use it for production yet. Please see **_Known issues_** below.
 
 
 ### Installation
@@ -61,5 +57,6 @@ If you experience any issues with the plugin, enable debugging by setting option
 
 ### Known issues
 
-- **Volumio 3** - Domoticz may throw errors `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` in log when Websocket frame with special operation code number is received from Volumio. It seems to be rather cosmetic issue only, it is not affecting plugin functionality. I will try to check with Domticz developers how to get rid of these errors. 
+- **Domoticz 2021.1** - When enabled with other plugins, I see messages from Domoticz `Python exception set prior to callback 'onMessage'`, [see discussion in Domoticz forum](https://www.domoticz.com/forum/viewtopic.php?t=37983)
 - **Domoticz 2022.2** - When the plugin is enabled, repeating errors about Acquiring/Releasing lock for Volumio plugin are logged in Domoticz. It seems to be a problem in Domoticz [see discussion in Domoticz forum](https://www.domoticz.com/forum/viewtopic.php?p=286255#p286255). 
+- **Volumio 3** - Domoticz may throw errors `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` in log when Websocket frame with special operation code number is received from Volumio. It seems to be rather cosmetic issue only, it is not affecting plugin functionality. I will try to check with Domticz developers how to get rid of these errors.
