@@ -1,5 +1,5 @@
 """
-<plugin key="Volumio" name="Volumio Audiophile Music Player" author="Frantisek Repkovsky" version="0.9.2" wikilink="" externallink="">
+<plugin key="Volumio" name="Volumio Audiophile Music Player" author="Frantisek Repkovsky" version="0.9.3" wikilink="" externallink="">
     <params>
         <param field="Address" label="IP Address" width="200px" required="true" default="127.0.0.1"/>
         <param field="Port" label="Port" width="30px" required="true" default="3000"/>
