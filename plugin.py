@@ -105,7 +105,7 @@ class BasePlugin:
                 payload = payload.lstrip('0123456789')
                 event = get_event_data(payload)
                 if event["type"] == "pushState":
-                    Domoticz.Log("Player status information received (pushState event)")
+                    Domoticz.Debug("Player status information received (pushState event)")
                     if not self.initStateReceived:
                         self.initStateReceived = True
                     response = event["data"]
@@ -153,7 +153,7 @@ class BasePlugin:
                 Domoticz.Debug("Websocket connection upgrade packet received (0).")
                 Domoticz.Log("Websocket connection with Volumio successful.")
                 self.volumioConn.Send({'Mask': get_mask(), 'Payload': '42["getState"]'})
-                Domoticz.Log("Player status request sent (getState event).")
+                Domoticz.Debug("Player status request sent (getState event).")
             elif payload == '1000':
                 Domoticz.Debug("Websocket connection close packet received (1000)")
                 Domoticz.Log("Connection closed by Volumio.")
