@@ -12,13 +12,9 @@ Currently, the following functions are implemented:
 - Mute control
 - Show media being played (Artist - Title)
 
-#### PLEASE NOTE:
-
-Plugin has been tested with Domoticz 2021.1 and Volumio 2 and Volumio 3. Do not use with Domoticz 2022.1 yet! See **_Known issues_** below.
-
-
 ### Installation
 
+Plugin has been tested with Domoticz 2021.1 and Volumio 2 and Volumio 3. Do not use with Domoticz 2022.1 yet! See _Known issues_ below.
 - Connect to Domoticz via ssh 
 - Go to Domoticz plugin folder: `cd domoticz/plugins`
 - Download plugin: 
@@ -61,5 +57,5 @@ If you experience any issues with the plugin, enable debugging by setting option
 
 ### Known issues
 
-- **Domoticz 2022.2** - When the plugin is enabled in debug mode, repeating errors about Acquiring/Releasing lock for Volumio plugin are logged in Domoticz. It seems to be a problem in Domoticz [see discussion in Domoticz forum](https://www.domoticz.com/forum/viewtopic.php?p=286255#p286255). 
-- **Volumio 3** - Domoticz may throw errors `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` in log when Websocket frame with special operation code number is received from Volumio. It seems to be rather cosmetic issue only, it is not affecting plugin functionality. I will try to check with Domticz developers how to get rid of these errors.
+- **Domoticz 2022.1** - When the plugin is enabled in debug mode, repeating errors about Acquiring/Releasing lock for the plugin are logged in Domoticz. Patches for Domoticz Plugin System to fix this issue are on the way  [see discussion in Domoticz forum](https://www.domoticz.com/forum/viewtopic.php?p=286906#p286906). 
+- **Volumio 3** - Domoticz may throw errors `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` in loghen Websocket frame with special operation code number is received from Volumio. It is not affecting plugin functionality. I'm investigating how to get rid of these errors.
