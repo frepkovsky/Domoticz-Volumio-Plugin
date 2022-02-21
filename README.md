@@ -7,14 +7,21 @@
 Plugin enables to control Volumio player from Domoticz via network. It uses Volumio Websocket API for communication. If player state is changed out of Domoticz, Volumio notifies the plugin about the change so current status in Domoticz always reflects real status of the player at that time.  
 
 Currently, the following functions are implemented:
-- Player control: Play, Pause,Stop
+- Player control: Play, Pause, Stop
 - Volume level control
 - Mute control
-- Show media being played (Artist - Title)
+- Now Playing
+
+Supported Domoticz versions:
+- Domoticz 2021.1
+- Domoticz 2022.1 **Beta** build 14223 (2022-02-21) or newer! See _Known issues_ below.
+
+Supported Volumio versions:
+- Volumio 2
+- Volumio 3
 
 ### Installation
 
-Plugin has been tested with Domoticz 2021.1 and Volumio 2 and Volumio 3. Do not use with Domoticz 2022.1 yet! See _Known issues_ below.
 - Connect to Domoticz via ssh 
 - Go to Domoticz plugin folder: `cd domoticz/plugins`
 - Download plugin: 
@@ -57,5 +64,6 @@ If you experience any issues with the plugin, enable debugging by setting option
 
 ### Known issues
 
-- **Domoticz 2022.1** - When the plugin is enabled in debug mode, repeating errors about Acquiring/Releasing lock for the plugin are logged in Domoticz. Patches for Domoticz Plugin System to fix this issue are on the way  [see discussion in Domoticz forum](https://www.domoticz.com/forum/viewtopic.php?p=286906#p286906). 
-- **Volumio 3** - Domoticz may throw errors `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` in loghen Websocket frame with special operation code number is received from Volumio. It is not affecting plugin functionality. I'm investigating how to get rid of these errors.
+- **Domoticz 2022.1 Stable** (build 14127 2022-01-31) - When the plugin is enabled in debug mode, errors about Acquiring/Releasing lock for the plugin are frequently logged in Domoticz logs. This problem has been fixed in Domoticz 2022.1 Beta build 14223, see [this post](https://www.domoticz.com/forum/viewtopic.php?t=38086) in the forum.
+
+- Sometimes, error messages: `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` may be observed in Domoticz logs. I'm investigating further how to get rid of these errors.
