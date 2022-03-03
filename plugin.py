@@ -1,8 +1,19 @@
 """
-<plugin key="Volumio" name="Volumio Audiophile Music Player" author="Frantisek Repkovsky" version="0.9.3" wikilink="" externallink="">
+<plugin key="Volumio" name="Volumio Audiophile Music Player" author="Frantisek Repkovsky" version="0.9.3"
+    wikilink="https://github.com/frepkovsky/Domoticz-Volumio-Plugin" externallink="https://volumio.com">
+    <description>
+        <h2>Volumio Plugin</h2><br/>
+        <h4>Favourite Playlists</h4>
+        Comma separrated list of your favourite playlists existing in Volumio device.<br/>
+            Example:
+            <div style="width:700px; padding: .2em;" class="text ui-widget-content ui-corner-all">
+                My Mix1, Sting - My Songs, Fun Radio
+            </div><br/>
+    </description>
     <params>
         <param field="Address" label="IP Address" width="200px" required="true" default="127.0.0.1"/>
         <param field="Port" label="Port" width="30px" required="true" default="3000"/>
+        <param field="Mode1" label="Favourite Playlists" width="700px" default=""/>
         <param field="Mode6" label="Debug" width="75px">
             <options>
                 <option label="True" value="Debug"/>
@@ -26,6 +37,8 @@ class BasePlugin:
     playerState = 0
     volumeLevel = 100
     mediaPlaying = ""
+    playPlaylist = 0
+    favPlaylists = []
     isMuted = False
     debug = False
 
@@ -38,18 +51,32 @@ class BasePlugin:
         if 'volumio' not in Images:
             Domoticz.Image('volumio_icons.zip').Create()
 
+        self.favPlaylists = str(Parameters["Mode1"]).split(",")
+        self.favPlaylists = [s.strip() for s in self.favPlaylists]
+        self.favPlaylists.insert(0, "")
+        if len(self.favPlaylists) > 1:
+            playlist_dev_used = 1
+        else:
+            playlist_dev_used = 0
+        playlist_dev_opts = {"LevelActions": (len(self.favPlaylists) - 1) * "|",
+                             "LevelNames": "|".join(self.favPlaylists),
+                             "LevelOffHidden": "false",
+                             "SelectorStyle": "1"}
+
         if len(Devices) == 0:
-            options = {"LevelActions": "0|10|20|30|",
+            player_dev_opts = {"LevelActions": "0|10|20|30|",
                       "LevelNames": "Off|Play|Pause|Stop",
                       "LevelOffHidden": "true",
                       "SelectorStyle": "0"}
             icon_id = Images["volumio"].ID
             Domoticz.Log("Icon ID: " + str(icon_id))
-            Domoticz.Device(Name="Player", Unit=1, TypeName="Selector Switch", Options=options,
+            Domoticz.Device(Name="Player", Unit=1, TypeName="Selector Switch", Options=player_dev_opts,
                             Image=icon_id, Used=1).Create()
             Domoticz.Device(Name="Now Playing", Unit=2, Type=243, Subtype=19, Used=1).Create()
             Domoticz.Device(Name="Volume", Unit=3, Type=244, Subtype=73, Switchtype=7,
                             Image=8, Used=1).Create()
+            Domoticz.Device(Name="Play Playlist", Unit=4, TypeName="Selector Switch", Options=playlist_dev_opts,
+                            Image=icon_id, Used=playlist_dev_used).Create()
             Domoticz.Log("Devices created.")
         if 1 in Devices:
             self.playerState = Devices[1].nValue
@@ -57,6 +84,10 @@ class BasePlugin:
             self.mediaPlaying = Devices[2].sValue
         if 3 in Devices:
             self.volumeLevel = Devices[3].sValue
+        if 4 in Devices:
+            self.playPlaylist = Devices[4].sValue
+            Devices[4].Update(nValue=0, sValue=self.playPlaylist, Options=playlist_dev_opts, Used=playlist_dev_used,
+                              SuppressTriggers=True)
 
         self.volumioConn = Domoticz.Connection(Name="volumioConn", Transport="TCP/IP", Protocol="WS",
                                                Address=Parameters["Address"], Port=Parameters["Port"])
@@ -151,7 +182,7 @@ class BasePlugin:
                     Domoticz.Debug("Unhadled event in event type packet (42): " + event["type"])
             elif payload.startswith('0'):
                 Domoticz.Debug("Websocket connection upgrade packet received (0).")
-                Domoticz.Log("Websocket connection with Volumio successful.")
+                Domoticz.Log("Websocket connection to Volumio successful.")
                 self.volumioConn.Send({'Mask': get_mask(), 'Payload': '42["getState"]'})
                 Domoticz.Debug("Player status request sent (getState event).")
             elif payload == '1000':
@@ -169,9 +200,9 @@ class BasePlugin:
         Command = Command.strip()
         action, sep, params = Command.partition(' ')
         action = action.capitalize()
-        Domoticz.Log("Command: " + str(Command))
-        Domoticz.Log("action: " + str(action))
-        Domoticz.Log("params: " + str(params))
+        Domoticz.Debug("Command: " + str(Command))
+        Domoticz.Debug("action: " + str(action))
+        Domoticz.Debug("params: " + str(params))
 
         if self.volumioConn.Connected():
             if action == 'Set':
@@ -187,6 +218,14 @@ class BasePlugin:
                         self.SyncDevices()
                     elif Unit == 3:  # Volume Level control
                         self.volumioConn.Send({'Mask': get_mask(), 'Payload': '42["volume",' + str(Level) + ']'})
+                    elif Unit == 4:  # Play Playlist
+                        self.playPlaylist = Level
+                        i = int(int(Level) / 10)
+                        playlist = str(self.favPlaylists[i])
+                        Domoticz.Log("Playlist: " + playlist)
+                        self.volumioConn.Send(
+                            {'Mask': get_mask(), 'Payload': '42["replaceAndPlay",{"uri":"playlists/' + playlist +
+                             '","title":"' + playlist + '","albumart":null,"service":"mpd"}]'})
             elif action == 'Off' or action == 'On':
                 if Unit == 3:  # Mute control
                     if action == 'Off':
@@ -245,6 +284,8 @@ class BasePlugin:
                 UpdateDevice(3, 0, self.volumeLevel)
             else:
                 UpdateDevice(3, 2, self.volumeLevel)
+        if 4 in Devices:
+            UpdateDevice(4, self.playerState, self.playPlaylist)
         return
 
 
