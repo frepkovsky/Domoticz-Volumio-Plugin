@@ -11,10 +11,11 @@ Currently, the following functions are implemented:
 - Volume level control
 - Mute control
 - Now Playing
+- Play Playlist
 
 Supported Domoticz versions:
 - Domoticz 2021.1
-- Domoticz 2022.1 **Beta** build 14223 (2022-02-21) or newer! See _Known issues_ below.
+- Domoticz 2022.1 **Beta** build 14223 (2022-02-21) or later! See _Known issues_ below.
 
 Supported Volumio versions:
 - Volumio 2
@@ -43,19 +44,20 @@ Configure plugin:
 
 - _Name_ - name of Volumio hardware device in Domoticz (i.e. Volumio)
 - _IP Address_ - IP address of your Volumio device
-- _Port_ - tcp port Volumio is listening on (by default on port 3000).
+- _Port_ - tcp port Volumio is listening on (by default on port 3000)
+- _Favourite Playlists_ - Comma separrated list of your favourite playlists existing in Volumio device (you can use space after comma for better readability, it is ignored)
 - click _Add_ button
 
-![image](https://user-images.githubusercontent.com/51033177/152552849-2dd3f0e0-edbb-4b17-bfad-9d7db4cdf39d.png)
+![image](https://user-images.githubusercontent.com/51033177/156994675-d5a94703-c397-42c7-8075-9dd1818e5866.png)
 
-
-Plugin will create 3 devices and shows them in related device tabs (Switches, Utilities):
+Plugin will create 4 devices and shows them in related device tabs (Switches, Utilities):
 
 - Player (Switch device)
 - Volume control (Switch device)
 - Playing Now (Text device)
+- Play Playlist (Switch device)
 
-![image](https://user-images.githubusercontent.com/51033177/152555243-0362b517-6920-4ba8-878b-31b31ecbb7f7.png)
+![image](https://user-images.githubusercontent.com/51033177/156995214-520f192f-b294-46e6-9bd5-108491ce26e6.png)
 
 ### Troubleshooting
 
@@ -64,6 +66,6 @@ If you experience any issues with the plugin, enable debugging by setting option
 
 ### Known issues
 
-- **Domoticz 2022.1 Stable** (build 14127 2022-01-31) - When the plugin is enabled in debug mode, errors about Acquiring/Releasing lock for the plugin are frequently logged in Domoticz logs. This problem has been fixed in Domoticz 2022.1 Beta build 14223, see [this post](https://www.domoticz.com/forum/viewtopic.php?t=38086) in the forum.
+- **Domoticz 2022.1 Stable** (build 14127 2022-01-31) - When the plugin is enabled in debug mode, errors about Acquiring/Releasing lock for the plugin are frequently logged in Domoticz logs. This problem has been fixed in Domoticz 2022.1 Beta build (14223 or later), see [this post](https://www.domoticz.com/forum/viewtopic.php?t=38086) in the forum.
 
-- Sometimes, error messages: `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` may be observed in Domoticz logs. I'm investigating further how to get rid of these errors.
+- Sometimes, error messages: `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` may be observed in Domoticz logs.
