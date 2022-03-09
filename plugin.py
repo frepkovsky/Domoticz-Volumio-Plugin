@@ -72,7 +72,7 @@ class BasePlugin:
             Domoticz.Log("Icon ID: " + str(icon_id))
             Domoticz.Device(Name="Player", Unit=1, TypeName="Selector Switch", Options=player_dev_opts,
                             Image=icon_id, Used=1).Create()
-            Domoticz.Device(Name="Now Playing", Unit=2, Type=243, Subtype=19, Used=1).Create()
+            Domoticz.Device(Name="Now Playing", Unit=2, Type=243, Subtype=19, Image=icon_id, Used=1).Create()
             Domoticz.Device(Name="Volume", Unit=3, Type=244, Subtype=73, Switchtype=7,
                             Image=8, Used=1).Create()
             Domoticz.Device(Name="Play Playlist", Unit=4, TypeName="Selector Switch", Options=playlist_dev_opts,
