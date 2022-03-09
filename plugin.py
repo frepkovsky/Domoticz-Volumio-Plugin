@@ -65,9 +65,9 @@ class BasePlugin:
 
         if len(Devices) == 0:
             player_dev_opts = {"LevelActions": "0|10|20|30|",
-                      "LevelNames": "Off|Play|Pause|Stop",
-                      "LevelOffHidden": "true",
-                      "SelectorStyle": "0"}
+                               "LevelNames": "Off|Play|Pause|Stop",
+                               "LevelOffHidden": "true",
+                               "SelectorStyle": "0"}
             icon_id = Images["volumio"].ID
             Domoticz.Log("Icon ID: " + str(icon_id))
             Domoticz.Device(Name="Player", Unit=1, TypeName="Selector Switch", Options=player_dev_opts,
@@ -100,22 +100,20 @@ class BasePlugin:
             Domoticz.Log("Connected successfully to: " + Connection.Address + ":" + Connection.Port)
             self.playerState = 1
             send_data = {'URL': '/socket.io/?EIO=3&transport=websocket',
-                        'Verb': 'GET',
-                        'Headers': {'Host': Parameters["Address"],
-                                    'User-Agent': 'Domoticz/1.0',
-                                    'Accept': '*/*',
-                                    'Accept-Language': 'en-US,en;q=0.5',
-                                    'Accept-Encoding': 'gzip, deflate',
-                                    'Sec-WebSocket-Version': '13',
-                                    'Origin': 'http://' + Parameters["Address"],
-                                    'Sec-WebSocket-Extensions': 'permessage-deflate',
-                                    'Sec-WebSocket-Key': get_sec_key(),
-                                    'Connection': 'keep-alive, Upgrade',
-                                    'Pragma': 'no-cache',
-                                    'Cache-Control': 'no-cache',
-                                    'Upgrade': 'websocket'
-                                    }
-                        }
+                         'Verb': 'GET',
+                         'Headers': {'Host': Parameters["Address"],
+                                     'User-Agent': 'Domoticz/1.0',
+                                     'Accept': '*/*',
+                                     'Accept-Language': 'en-US,en;q=0.5',
+                                     'Accept-Encoding': 'gzip, deflate',
+                                     'Sec-WebSocket-Version': '13',
+                                     'Origin': 'http://' + Parameters["Address"],
+                                     'Sec-WebSocket-Extensions': 'permessage-deflate',
+                                     'Sec-WebSocket-Key': get_sec_key(),
+                                     'Connection': 'keep-alive, Upgrade',
+                                     'Pragma': 'no-cache',
+                                     'Cache-Control': 'no-cache',
+                                     'Upgrade': 'websocket'}}
             Connection.Send(send_data)
         else:
             Domoticz.Log("Failed to connect (" + str(Status) + ") to: " + Connection.Address + ":" + Connection.Port)
@@ -192,7 +190,6 @@ class BasePlugin:
             else:
                 Domoticz.Debug("Unhandled packet type with payload: " + payload)
 
-
     def onCommand(self, Unit, Command, Level, Hue):
         Domoticz.Log(
             "onCommand called for Unit " + str(Unit) + ": Parameter '" + str(Command) + "', Level: " + str(Level))
@@ -236,7 +233,8 @@ class BasePlugin:
                         self.volumioConn.Send({'Mask': get_mask(), 'Payload': '42["unmute"]'})
 
     def onNotification(self, Name, Subject, Text, Status, Priority, Sound, ImageFile):
-        Domoticz.Log("Notification: " + Name + "," + Subject + "," + Text + "," + Status + "," + str(Priority) + "," + Sound + "," + ImageFile)
+        Domoticz.Log("Notification: " + Name + "," + Subject + "," + Text + "," + Status + "," + str(Priority) + "," +
+                     Sound + "," + ImageFile)
 
     def onHeartbeat(self):
         Domoticz.Debug("onHeartbeat called")
@@ -339,7 +337,7 @@ def onHeartbeat():
 def DumpConfigToLog():
     for x in Parameters:
         if Parameters[x] != "":
-            Domoticz.Debug( "'" + x + "':'" + str(Parameters[x]) + "'")
+            Domoticz.Debug("'" + x + "':'" + str(Parameters[x]) + "'")
     Domoticz.Debug("Device count: " + str(len(Devices)))
     for x in Devices:
         Domoticz.Debug("Device:           " + str(x) + " - " + str(Devices[x]))
