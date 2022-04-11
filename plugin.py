@@ -1,5 +1,5 @@
 """
-<plugin key="Volumio" name="Volumio Audiophile Music Player" author="Frantisek Repkovsky" version="0.9.4"
+<plugin key="Volumio" name="Volumio Audiophile Music Player" author="Frantisek Repkovsky" version="0.9.5"
     wikilink="https://github.com/frepkovsky/Domoticz-Volumio-Plugin" externallink="https://volumio.com">
     <description>
         <h2>Volumio Plugin</h2><br/>
