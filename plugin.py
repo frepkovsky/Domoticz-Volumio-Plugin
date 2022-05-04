@@ -370,11 +370,11 @@ def UpdateDevice(Unit, nValue, sValue):
 
 
 def get_mask():
-    return str(secrets.randbits(32))
+    return secrets.randbits(32)
 
 
 def get_sec_key():
-    return str(base64.b64encode(secrets.token_bytes(32)))
+    return base64.b64encode(secrets.token_bytes(16)).decode("utf-8")
 
 
 def get_event_data(event: str) -> dict:
