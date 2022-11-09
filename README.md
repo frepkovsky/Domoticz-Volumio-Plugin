@@ -16,6 +16,7 @@ Currently, the following functions are implemented:
 Supported Domoticz versions:
 - Domoticz 2021.1
 - Domoticz 2022.1 **Beta** build 14339 or newer! See _Known issues_ below.
+- Domoticz 2022.2
 
 Supported Volumio versions:
 - Volumio 2
