@@ -13,14 +13,7 @@ Currently, the following functions are implemented:
 - Now Playing
 - Play Playlist
 
-Supported Domoticz versions:
-- Domoticz 2021.1
-- Domoticz 2022.1 **Beta** build 14339 or newer! See _Known issues_ below.
-- Domoticz 2022.2
-
-Supported Volumio versions:
-- Volumio 2
-- Volumio 3
+Works with Domoticz version 2022.2 and newer and Volumio version 2/3/4
 
 ### Installation
 
@@ -64,9 +57,3 @@ Plugin will create 4 devices and shows them in related device tabs (Switches, Ut
 
 If you experience any issues with the plugin, enable debugging by setting option Debug to True in your _Volumio_ hw device configuration, re-enable the plugin and check logs in Domoticz Log screen.
 
-
-### Known issues
-
-- **Domoticz 2022.1 Stable** (build 14127 2022-01-31) - When the plugin is enabled in debug mode, errors about Acquiring/Releasing lock for the plugin are frequently logged in Domoticz logs. This problem has been fixed in Domoticz 2022.1 Beta build (14223 or later), see [this post](https://www.domoticz.com/forum/viewtopic.php?t=38086) in the forum.
-
-- Sometimes, error messages: `Error: (ProcessWholeMessage) Unknown Operation Code (x) encountered.` may be observed in Domoticz logs. This problem has been fixed in  Domoticz 2022.1 Beta build (14339 or later), see [this topic](https://www.domoticz.com/forum/viewtopic.php?t=38358&sid=3de2216d05f7cac1d2362e64222e3a38&start=20) in Domoticz forum.
