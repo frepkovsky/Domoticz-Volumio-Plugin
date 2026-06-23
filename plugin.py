@@ -264,7 +264,6 @@ class BasePlugin:
         self.volumioConn = None
         self.nValue = 0
         self.playerState = 0
-        self.volumeLevel = 100
         self.mediaPlaying = "Off"
         self.isMuted = False
         self.SyncDevices()
