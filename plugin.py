@@ -35,6 +35,7 @@ class BasePlugin:
     reconAgain = 3
     initStateReceived = False
     playerState = 0
+    nValue = 0
     volumeLevel = 100
     mediaPlaying = ""
     playPlaylist = 0
@@ -79,14 +80,14 @@ class BasePlugin:
                             Image=icon_id, Used=playlist_dev_used).Create()
             Domoticz.Log("Devices created.")
         if 1 in Devices:
-            self.playerState = Devices[1].nValue
+            self.playerState = Devices[1].sValue
         if 2 in Devices:
             self.mediaPlaying = Devices[2].sValue
         if 3 in Devices:
             self.volumeLevel = Devices[3].sValue
         if 4 in Devices:
             self.playPlaylist = Devices[4].sValue
-            Devices[4].Update(nValue=0, sValue=self.playPlaylist, Options=playlist_dev_opts, Used=playlist_dev_used,
+            Devices[4].Update(nValue=self.nValue, sValue=self.playPlaylist, Options=playlist_dev_opts, Used=playlist_dev_used,
                               SuppressTriggers=True)
 
         self.volumioConn = Domoticz.Connection(Name="volumioConn", Transport="TCP/IP", Protocol="WS",
@@ -98,7 +99,7 @@ class BasePlugin:
     def onConnect(self, Connection, Status, Description):
         if Status == 0:
             Domoticz.Log("Connected successfully to: " + Connection.Address + ":" + Connection.Port)
-            self.playerState = 1
+            self.nValue = 1
             send_data = {'URL': '/socket.io/?EIO=3&transport=websocket',
                          'Verb': 'GET',
                          'Headers': {'Host': Parameters["Address"],
@@ -115,6 +116,7 @@ class BasePlugin:
                                      'Cache-Control': 'no-cache',
                                      'Upgrade': 'websocket'}}
             Connection.Send(send_data)
+            self.SyncDevices()
         else:
             Domoticz.Log("Failed to connect (" + str(Status) + ") to: " + Connection.Address + ":" + Connection.Port)
             Domoticz.Debug("Failed to connect (" + str(
@@ -260,6 +262,7 @@ class BasePlugin:
     def onDisconnect(self, Connection):
         Domoticz.Log("Volumio device disconnected")
         self.volumioConn = None
+        self.nValue = 0
         self.playerState = 0
         self.volumeLevel = 100
         self.mediaPlaying = "Off"
@@ -274,16 +277,16 @@ class BasePlugin:
     def SyncDevices(self):
         # Make sure that the Domoticz devices are in sync (by definition, the device is connected)
         if 1 in Devices:
-            UpdateDevice(1, self.playerState, self.playerState)
+            UpdateDevice(1, self.nValue, self.playerState)
         if 2 in Devices:
             UpdateDevice(2, 0, self.mediaPlaying)
         if 3 in Devices:
             if self.isMuted:
-                UpdateDevice(3, 0, self.volumeLevel)
+                UpdateDevice(3, 3, self.volumeLevel)
             else:
-                UpdateDevice(3, 2, self.volumeLevel)
+                UpdateDevice(3, self.nValue, self.volumeLevel)
         if 4 in Devices:
-            UpdateDevice(4, self.playerState, self.playPlaylist)
+            UpdateDevice(4, self.nValue, self.playPlaylist)
         return
 
 
