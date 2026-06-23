@@ -203,7 +203,7 @@ class BasePlugin:
         Domoticz.Debug("action: " + str(action))
         Domoticz.Debug("params: " + str(params))
 
-        if self.volumioConn.Connected():
+        if self.volumioConn is not None and self.volumioConn.Connected():
             if action == 'Set':
                 if params.capitalize() == 'Level':
                     if Unit == 1:  # Player control
