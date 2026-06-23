@@ -282,9 +282,9 @@ class BasePlugin:
             UpdateDevice(2, 0, self.mediaPlaying)
         if 3 in Devices:
             if self.isMuted:
-                UpdateDevice(3, 3, self.volumeLevel)
+                UpdateDevice(3, 0, self.volumeLevel)
             else:
-                UpdateDevice(3, self.nValue, self.volumeLevel)
+                UpdateDevice(3, 1, self.volumeLevel)
         if 4 in Devices:
             UpdateDevice(4, self.nValue, self.playPlaylist)
         return
